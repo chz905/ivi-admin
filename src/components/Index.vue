@@ -1,59 +1,21 @@
 <template>
   <div class="layout">
     <Layout class="h">
-      <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
+      <Sider ref="side1" hide-trigger collapsible breakpoint="md" :collapsed-width="0" v-model="isCollapsed">
         <div class="logo">
           <img src="../assets/logo-zyd.png" alt="logo" class="logo-img" />
           <span v-show="!isCollapsed">中远达</span>
         </div>
-        <Menu active-name="1" theme="dark" width="auto" :class="menuitemClasses" accordion>
-          <Submenu name="1">
-            <template slot="title">
-              <Icon type="ios-paper" />
-              <span v-show="!isCollapsed">内容管理</span>
-            </template>
-            <MenuItem name="1-1" to="/home">文章管理</MenuItem>
-            <MenuItem name="1-2">评论管理</MenuItem>
-            <MenuItem name="1-3">举报管理</MenuItem>
-          </Submenu>
-          <Submenu name="2">
-            <template slot="title">
-              <Icon type="ios-people" />
-              <span v-show="!isCollapsed">用户管理</span>
-            </template>
-            <MenuItem name="2-1">新增用户</MenuItem>
-            <MenuItem name="2-2">活跃用户</MenuItem>
-          </Submenu>
-          <Submenu name="3">
-            <template slot="title">
-              <Icon type="ios-stats" />
-              <span v-show="!isCollapsed">统计分析</span>
-            </template>
-            <MenuGroup title="使用">
-              <MenuItem name="3-1">新增和启动</MenuItem>
-              <MenuItem name="3-2">活跃分析</MenuItem>
-              <MenuItem name="3-3">时段分析</MenuItem>
-            </MenuGroup>
-            <MenuGroup title="留存">
-              <MenuItem name="3-4">用户留存</MenuItem>
-              <MenuItem name="3-5">流失用户</MenuItem>
-            </MenuGroup>
-          </Submenu>
-          <Submenu name="4">
-            <template slot="title">
-              <Icon type="ios-stats" />
-              <span v-show="!isCollapsed">统计分析</span>
-            </template>
-            <MenuGroup title="使用">
-              <MenuItem name="3-1">新增和启动</MenuItem>
-              <MenuItem name="3-2">活跃分析</MenuItem>
-              <MenuItem name="3-3">时段分析</MenuItem>
-            </MenuGroup>
-            <MenuGroup title="留存">
-              <MenuItem name="3-4">用户留存</MenuItem>
-              <MenuItem name="3-5">流失用户</MenuItem>
-            </MenuGroup>
-          </Submenu>
+        <Menu active-name="1-1" theme="dark" width="auto" :class="menuitemClasses" accordion>
+          <div v-for="(item,index) in menuItems" :key="index">
+            <Submenu v-if="item.children" :name="index" >
+              <template slot="title">
+                <Icon :type="item.type" />
+                <span v-show="!isCollapsed">{{item.text}}</span>
+              </template>
+              <MenuItem v-for="(v,i) in item.children" :key="i" :name="index + '-' + i" :to="v.to">{{ v.type }}</MenuItem>
+            </Submenu>
+          </div>
         </Menu>
       </Sider>
       <Layout>
@@ -104,10 +66,10 @@ export default {
     });
   },
   computed: {
-    //菜单栏
-    // menuItems() {
-    //   return this.$store.state.menuItems;
-    // },
+    // 菜单栏
+    menuItems() {
+      return this.$store.state.menuItems;
+    },
     rotateIcon() {
       return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
     },
