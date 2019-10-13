@@ -15,7 +15,7 @@ export default new Vuex.Store({
             type: '文章管理'
           },
           {
-            to: '', //要跳转路由的名称
+            to: 'message', //要跳转路由的名称
             type: '评论管理'
           },
           {

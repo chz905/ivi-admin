@@ -1,5 +1,6 @@
 <template>
     <div class="login">
+        <router-link to="/home">home</router-link>
         <div class="container">
             <h3>后台管理系统</h3>
             <div class="input-log">
@@ -10,7 +11,7 @@
                 <Input type="password" v-model="password" prefix="md-lock" placeholder="用户名" size="large" clearable @on-blur="lock" style="width: 100%;height: 100%" />
                 <p class="remind">{{npassword}}</p>
             </div>
-            <Button type="primary" :loading="loging" size="large" long @click="submit">Login</Button>
+            <Button type="primary" :loading="loging" size="large" long @click.space="submit">Login</Button>
         </div>
     </div>
 </template>

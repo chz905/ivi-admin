@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { LoadingBar } from 'iview'
+import { LoadingBar,Message } from 'iview'
 
 Vue.use(Router)
 
@@ -17,6 +17,11 @@ const router = new Router({
           path: '/home',
           name: 'home',
           component: () => import('./views/Home.vue')
+        },
+        {
+          path: '/message',
+          name: 'message',
+          component: () => import('./views/Message.vue')
         },
       ]
     },
@@ -36,13 +41,20 @@ Router.prototype.push = function push(location) {
 //路由守卫
 
 router.beforeEach((to,from,next) => {
+
   LoadingBar.start()
   const isLogin = localStorage.token ? true : false;
   if (to.path == '/login') {
     next();
   } else {
     // 是否在登录状态下
-    isLogin ? next() : next('/login');
+    if(isLogin){
+      next()
+    }else{
+      LoadingBar.finish()
+      Message.error('请先登录')
+      next('/login')
+    }
   }
 });
 

@@ -1,12 +1,14 @@
 <template>
   <div class="layout">
+    
     <Layout class="h">
+      <!-- 左侧导航栏 -->
       <Sider ref="side1" hide-trigger collapsible breakpoint="md" :collapsed-width="0" v-model="isCollapsed">
         <div class="logo">
           <img src="../assets/logo-zyd.png" alt="logo" class="logo-img" />
           <span v-show="!isCollapsed">中远达</span>
         </div>
-        <Menu active-name="1-1" theme="dark" width="auto" :class="menuitemClasses" accordion>
+        <Menu active-name="1" theme="dark" width="auto" :class="menuitemClasses" accordion>
           <div v-for="(item,index) in menuItems" :key="index">
             <Submenu v-if="item.children" :name="index" >
               <template slot="title">
@@ -18,7 +20,9 @@
           </div>
         </Menu>
       </Sider>
+      <!-- 右侧内容 -->
       <Layout>
+        <!-- 右侧头部 -->
         <Header class="layout-header-bar">
           <div class="icon-open">
             <Icon
@@ -30,20 +34,25 @@
             ></Icon>
           </div>
           <div>
-            <Dropdown>
-              中远达
+            <Dropdown @on-click="changeDate" >
+              <a href="javascript:void(0)">
+                中远达
+                <Icon type="ios-arrow-down"></Icon>
+              </a>
               <DropdownMenu slot="list">
                 <DropdownItem>我的</DropdownItem>
                 <DropdownItem>你的</DropdownItem>
-                <DropdownItem divided on-click="exit">退出登录</DropdownItem>
+                <DropdownItem divided name="exit">退出登录</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div> 
         </Header>
+        <!-- 面包屑 -->
         <Breadcrumb class="breadcrumb">
           <BreadcrumbItem to>首页</BreadcrumbItem>
           <BreadcrumbItem to>文章管理</BreadcrumbItem>
         </Breadcrumb>
+        <!-- 内容 -->
         <Content style="margin: 20px; background: #fff; height: 260px;overflow-x: hidden;">
           <router-view></router-view>
         </Content>
@@ -81,8 +90,12 @@ export default {
     collapsedSider() {
       this.$refs.side1.toggleCollapse();
     },
-    exit(){
-      console.log('a')
+    changeDate(name){
+      if(name == 'exit'){
+        console.log('a')
+        localStorage.token = ''
+        this.$router.push("/login");
+      }
     }
   }
 };
