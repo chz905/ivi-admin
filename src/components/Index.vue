@@ -49,8 +49,7 @@
         </Header>
         <!-- 面包屑 -->
         <Breadcrumb class="breadcrumb">
-          <BreadcrumbItem to>首页</BreadcrumbItem>
-          <BreadcrumbItem to>文章管理</BreadcrumbItem>
+          <BreadcrumbItem v-for="(item,index) in list" :key="index" :to="item.path">{{ item.name }}</BreadcrumbItem>
         </Breadcrumb>
         <!-- 内容 -->
         <Content style="margin: 20px; background: #fff; height: 260px;overflow-x: hidden;">
@@ -66,14 +65,18 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      isCollapsed: false
+      isCollapsed: false,
+      list: []
     };
   },
+  //生命周期
   mounted() {
     this.$http.post("/discover/list", {}).then(res => {
       console.log(res);
     });
+    this.list = this.$route.matched
   },
+  //计算属性
   computed: {
     // 菜单栏
     menuItems() {
@@ -86,6 +89,7 @@ export default {
       return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
     }
   },
+  //方法
   methods: {
     collapsedSider() {
       this.$refs.side1.toggleCollapse();
@@ -97,7 +101,14 @@ export default {
         this.$router.push("/login");
       }
     }
-  }
+  },
+  //监听
+  watch: {
+    $route(){   // 监听路由变化
+      this.list = []
+      this.list = this.$route.matched
+    }
+  },
 };
 </script>
 
