@@ -1,6 +1,5 @@
 <template>
   <div class="layout">
-    
     <Layout class="h">
       <!-- 左侧导航栏 -->
       <Sider ref="side1" hide-trigger collapsible breakpoint="md" :collapsed-width="0" v-model="isCollapsed">
@@ -8,17 +7,8 @@
           <img src="../assets/logo-zyd.png" alt="logo" class="logo-img" />
           <span v-show="!isCollapsed">中远达</span>
         </div>
-        <Menu active-name="1" theme="dark" width="auto" :class="menuitemClasses" accordion>
-          <div v-for="(item,index) in menuItems" :key="index">
-            <Submenu v-if="item.children" :name="index" >
-              <template slot="title">
-                <Icon :type="item.type" />
-                <span v-show="!isCollapsed">{{item.text}}</span>
-              </template>
-              <MenuItem v-for="(v,i) in item.children" :key="i" :name="index + '-' + i" :to="v.to">{{ v.type }}</MenuItem>
-            </Submenu>
-          </div>
-        </Menu>
+        <!-- 侧边栏 -->
+        <Navigation :permissions="menus"/>
       </Sider>
       <!-- 右侧内容 -->
       <Layout>
@@ -36,12 +26,11 @@
           <div>
             <Dropdown @on-click="changeDate" >
               <a href="javascript:void(0)">
-                中远达
+                {{ user.nickname }}
                 <Icon type="ios-arrow-down"></Icon>
               </a>
               <DropdownMenu slot="list">
                 <DropdownItem>我的</DropdownItem>
-                <DropdownItem>你的</DropdownItem>
                 <DropdownItem divided name="exit">退出登录</DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -49,7 +38,7 @@
         </Header>
         <!-- 面包屑 -->
         <Breadcrumb class="breadcrumb">
-          <BreadcrumbItem v-for="(item,index) in list" :key="index" :to="item.path">{{ item.name }}</BreadcrumbItem>
+          <BreadcrumbItem v-for="(item,index) in list" :key="index">{{ item.meta.name }}</BreadcrumbItem>
         </Breadcrumb>
         <!-- 内容 -->
         <Content style="margin: 20px; background: #fff; height: 260px;overflow-x: hidden;">
@@ -61,32 +50,32 @@
 </template>
 
 <script>
+import Navigation from '../views/components/Navigation'
 export default {
   name: "HelloWorld",
   data() {
     return {
       isCollapsed: false,
-      list: []
+      list: [],
+      menus:[],
+      user:{}
     };
   },
   //生命周期
-  mounted() {
-    this.$http.post("/discover/list", {}).then(res => {
-      console.log(res);
-    });
+  created() {
+    //路由变化
     this.list = this.$route.matched
+    this.menus = JSON.parse(localStorage.menus) //菜单
+    this.user = JSON.parse(localStorage.user)   //个人
+    // let con = localStorage.menus;
+  },
+  components:{
+    Navigation
   },
   //计算属性
   computed: {
-    // 菜单栏
-    menuItems() {
-      return this.$store.state.menuItems;
-    },
     rotateIcon() {
       return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
-    },
-    menuitemClasses() {
-      return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
     }
   },
   //方法
@@ -96,8 +85,9 @@ export default {
     },
     changeDate(name){
       if(name == 'exit'){
-        console.log('a')
         localStorage.token = ''
+        localStorage.menus = ''
+        localStorage.user = ''
         this.$router.push("/login");
       }
     }
@@ -109,6 +99,13 @@ export default {
       this.list = this.$route.matched
     }
   },
+  // //导航守卫
+  // beforeRouteEnter(to, from, next) {
+  //     // console.log(to)
+  //   next(vm => {
+  //     vm.permissions = to.params.table;
+  //   });
+  // },
 };
 </script>
 
@@ -144,13 +141,6 @@ export default {
   background: #fff;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
-.layout-logo-left {
-  width: 90%;
-  height: 30px;
-  background: #5b6270;
-  border-radius: 3px;
-  margin: 15px auto;
-}
 .menu-icon {
   transition: all 0.3s;
 }
@@ -159,31 +149,6 @@ export default {
 }
 .rotate-icon {
   transform: rotate(-90deg);
-}
-.menu-item span {
-  display: inline-block;
-  overflow: hidden;
-  width: 69px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: bottom;
-  transition: width 0.2s ease 0.2s;
-}
-.menu-item i {
-  transform: translateX(0px);
-  transition: font-size 0.2s ease, transform 0.2s ease;
-  vertical-align: middle;
-  font-size: 16px;
-}
-.collapsed-menu span {
-  width: 0px;
-  transition: width 0.2s ease;
-}
-.collapsed-menu i {
-  transform: translateX(5px);
-  transition: font-size 0.2s ease 0.2s, transform 0.2s ease 0.2s;
-  vertical-align: middle;
-  font-size: 22px;
 }
 .breadcrumb {
   padding-left: 20px;

@@ -1,16 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './store/index'
 import iView from 'iview';
 import echarts from 'echarts'
 import 'iview/dist/styles/iview.css';
-import {get,post} from './utils/http'
 
-Vue.prototype.$http = {
-  get,
-  post
-}
 Vue.use(iView);
 Vue.use(echarts)
 Vue.prototype.$echarts = echarts

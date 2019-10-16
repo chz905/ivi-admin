@@ -1,6 +1,6 @@
 <template>
     <div class="message">
-       mesage 
+        车辆跟踪
     </div>
 </template>
 

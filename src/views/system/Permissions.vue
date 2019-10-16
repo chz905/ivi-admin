@@ -60,7 +60,6 @@
 </template>
 
 <script>
-// import echarts from 'echarts'
 export default {
   name: "Echarts",
   data() {
@@ -315,15 +314,15 @@ export default {
   box-shadow: 0 0 16px rgba(52, 150, 201, 0.22);
 }
 .icon1 em {
-  background: url(../assets/wz.png) no-repeat center center;
+  background: url(../../assets/wz.png) no-repeat center center;
   background-size: 40px;
 }
 .icon2 em {
-  background: url(../assets/sb.png) no-repeat center center;
+  background: url(../../assets/sb.png) no-repeat center center;
   background-size: 40px;
 }
 .icon3 em {
-  background: url(../assets/yh.png) no-repeat center center;
+  background: url(../../assets/yh.png) no-repeat center center;
   background-size: 40px;
 }
 .con-box > ul {
