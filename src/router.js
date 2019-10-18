@@ -39,7 +39,7 @@ const router = new Router({
       path: '/',
       name: 'index',
       component: Index,
-      redirect: '/manageusers',
+      redirect: '/permissions',
       meta: { name: '首页' },
       children:[
         {

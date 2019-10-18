@@ -5,7 +5,7 @@ import QS from 'qs';
 import { Message } from 'iview';
 // Vue.prototype.axios = axios;
 //地址
-axios.defaults.baseURL = 'http://192.168.1.114:8080';
+axios.defaults.baseURL = 'http://192.168.1.107:8080';
 //请求超时时间
 axios.defaults.timeout = 10000;
 //post请求头
@@ -13,7 +13,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 //请求拦截器
 axios.interceptors.request.use(config => {
-    console.log('config++', config.headers,localStorage.header)
+    // console.log('config++', config.headers,localStorage.header)
     
     if (localStorage.userid) {
         config.headers.userid = localStorage.getItem('userid')
@@ -24,7 +24,7 @@ axios.interceptors.request.use(config => {
 })
 //响应拦截
 axios.interceptors.response.use(response => {
-    console.log(response)
+    // console.log(response)
     return response
 }, error => {
     Indicator.close();
