@@ -67,19 +67,23 @@
       <ul class="form">
         <li>
           <label>用户名:</label>
-          <Input size="default" v-model="update.nickname" placeholder="用户名" />
+          <Input size="default" v-model="modify.nickname" placeholder="用户名" />
         </li>
         <li>
           <label>账户:</label>
-          <Input size="default" v-model="update.username" placeholder="账户" />
+          <Input size="default" v-model="modify.username" placeholder="账户" />
+        </li>
+        <li>
+          <label>密码:</label>
+          <Input size="default" v-model="modify.password" placeholder="密码" />
         </li>
         <li>
           <label>手机号:</label>
-          <Input size="default" v-model="update.mobilephone" placeholder="手机号" />
+          <Input size="default" v-model="modify.mobilephone" placeholder="手机号" />
         </li>
         <li>
           <label>角色:</label>
-          <Input size="default" v-model="update.groupid" placeholder="角色" />
+          <Input size="default" v-model="modify.groupid" placeholder="角色" />
         </li>
       </ul>
     </Modal>
@@ -91,8 +95,7 @@ import {
   manageusers,
   manageusersadd,
   manageusersupdate,
-  manageusersdelete,
-  groupAllList
+  manageusersdelete
 } from "@/utils/api";
 import TableList from "../components/Tablelist";
 export default {
@@ -133,22 +136,14 @@ export default {
   //钩子函数
   created() {
     this.query();
-    this.groupAllList();
   },
   //组件
   components: {
     TableList
   },
   methods: {
-    //查询全部角色
-    groupAllList() {
-      groupAllList().then(res => {
-        console.log("查询全部角色", res);
-      });
-    },
     query() {
       manageusers(this.inform).then(res => {
-        console.log("11111", res);
         this.list = res.data.items;
         this.length = res.data.totalNum;
       });
@@ -158,31 +153,52 @@ export default {
       this.query();
     },
     //分页
-    changePage(num) {},
+    changePage(num) {
+      manageusers({
+        nickname: "",
+        username: "",
+        mobilephone: "",
+        groupid: "",
+        currentPage: num,
+        pageSize: 10
+      }).then(res => {
+        // console.log(res)
+      })
+    },
     //新增
     addList() {
       this.modal = true;
     },
     carupdate() {
       manageusersadd(this.update).then(res => {
-        console.log("成功", res);
+        this.judge()
         this.query();
       });
     },
     //删除
-    del() {},
+    del(index) {
+      manageusersdelete({id: index}).then(res => {
+        this.query();
+      })
+    },
     //修改
     show(data) {
-        console.log('过来了',data)
       this.modal1 = true;
       this.modify.id = data.id
       
     },
     carupdate1() {
       manageusersupdate(this.modify).then(res => {
-        console.log(res);
+        this.judge()
         this.query();
       });
+    },
+    judge(){
+      let ph = /^1[3|5|7|8|][0-9]{9}$/; //手机号正则
+      if(ph.test(this.update.mobilephone) == '' || ph.test(this.modify.mobilephone)){
+        this.$Message.warning('请输入正确的手机号')
+        return
+      }
     }
   }
 };

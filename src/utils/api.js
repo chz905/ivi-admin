@@ -10,8 +10,6 @@ export const cardelete = p => post('/car/delete', p)
 export const carupdate = p => post('/car/update', p)
 
 
-//查询全部角色
-export const groupAllList = p => post('/group/groupAllList', p)
 //查询管理用户
 export const manageusers = p => post('/manageusers/manageuserslist', p)
 //新增管理用户
@@ -22,6 +20,8 @@ export const manageusersupdate = p => post('/manageusers/manageusersupdate', p)
 export const manageusersdelete = p => post('/manageusers/manageusersdelete', p)
 
 
+//查询全部角色
+export const groupAllList = p => post('/group/groupAllList', p)
 //查询角色
 export const grouplist = p => post('/group/grouplist', p)
 //新增角色
@@ -30,8 +30,8 @@ export const groupadd = p => post('/group/groupadd', p)
 export const groupupdate = p => post('/group/groupupdate', p)
 //删除角色
 export const groupdelete = p => post('/group/groupdelete', p)
-
-
 //新增授权
+export const poweradd = p => post('/users/poweradd', p)
+
 
 

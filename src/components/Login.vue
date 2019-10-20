@@ -61,44 +61,11 @@ export default {
       }
     },
     submit() {
-      // if(this.admin == 'admin' && this.password == 'admin'){
-      //     this.loging = true;
-      //     //登陆成功设置缓存
-      //     localStorage.setItem('token',true)
-      //     this.$router.push("/");
-      // }else{
-      //     if(this.admin !== 'admin'){
-      //         this.nadmin = "账号为admin"
-      //     }
-      //     if(this.password !== 'admin'){
-      //         this.npassword = "请输入密码"
-      //     }
-      // }
-
-      // this.$http
-      //   .post("/users/login", {
-      //     username: this.admin,
-      //     password: this.password
-      //   })
-      //   .then(res => {
-      //       if(res.retCode == 1){
-      //           console.log("aaa", res);
-      //           localStorage.setItem("token", true);
-      //           localStorage.setItem("header", res.data.user.id); //请求头
-      //           localStorage.setItem("menus", JSON.stringify(res.data.mens));
-      //           localStorage.setItem("user", JSON.stringify(res.data.user));
-      //           this.$router.push({ name: "index" });
-      //           // this.$router.push({ name: "index", params: { table: res}});
-      //       }else if(res.retCode == -1){
-      //           this.lock()
-      //       }
-          
-      //   });
-
       apiAddress({
         username: this.admin,
         password: this.password
       }).then(res => {
+        console.log(res)
         if(res.retCode == 1){
             console.log("aaa", res);
             localStorage.setItem("token", true);

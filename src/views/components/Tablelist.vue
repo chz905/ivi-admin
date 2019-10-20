@@ -29,20 +29,29 @@
             <td v-if="item.username">{{ item.username }}</td>
             <td v-if="item.mobilephone">{{ item.mobilephone }}</td>
             <td v-if="item.groupid">{{ item.groupid }}</td>
+
+            <!-- 车辆管理 -->
+            <td v-if="item.name">{{ item.name }}</td>
+            <td v-if="item.code">{{ item.code }}</td>
+            
             <td>
               <Button
                 type="primary"
-                
                 size="small"
                 style="margin: 0 10px;"
                 @click="$emit('update',item)"
               >修改</Button>
-              <Button
-                type="error"
-                size="small"
-                style="margin: 0 10px;"
-                @click="$emit('del',item.id)"
-              >删除</Button>
+              <Poptip
+                confirm
+                title="确定删除这条数据么"
+                @on-ok="$emit('del',item.id)"
+              >
+                <Button
+                  type="error"
+                  size="small"
+                  style="margin: 0 10px;"
+                >删除</Button>
+              </Poptip>
             </td>
           </tr>
         </template>
