@@ -5,7 +5,7 @@ import QS from 'qs';
 import { Message } from 'iview';
 // Vue.prototype.axios = axios;
 //地址
-axios.defaults.baseURL = 'https://backend.gps.zydrfid.com';
+axios.defaults.baseURL = '';
 //请求超时时间
 axios.defaults.timeout = 10000;
 //post请求头
